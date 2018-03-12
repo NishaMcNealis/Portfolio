@@ -1,0 +1,82 @@
+INDO README
+
+**********************************Introduction*************************************
+
+Here is my code for an APCS assignment about processing logical expressions.
+
+Given a logical expression with proposition constants represented as lower case letters and logical operators (=> <=> | & ~) with the usual significance of these symbols, we were required to write code that would transform the expression into CNF using the INDO procedure.
+
+My code is able to process all of the given symbols as well as parenthesis, following all of the rules of INDO logical processing outlined in the Stanford Logic Course.
+I wrote several test cases and encapsulated my code so that each step of INDO corresponded to a separate method invocation that can be tested in isolation.
+
+*****************************Overview of the code**********************************
+
+There are 7 main parts to my code. 
+1. Constructor
+
+The constructor runs all four steps of INDO on the String parameter it is given.
+
+2. FindWords
+
+This is a method in which I encapsulated code that takes a string and, using the 
+space as a delimiter, makes each word an element of an ArrayList.
+
+3. Implication
+	A. Implication()
+	The implication method is the main one and runs all other methods concerning 
+	implication. It starts by running findWords() on its parameter, a String s. 
+	It then parses through the returned ArrayList to find the implication symbol.
+	Depending on the symbol, it then runs one of the following methods. 
+	B. Biconditional 
+	This method takes an ArrayList lst representing words in String s, as well as String s
+	and int i, which is the index of the biconditional symbol. 
+	It returns a new string translating the biconditional into an | symbol
+	and adding ~ before the appropriate variables.
+	C. NotPrev
+	This method adds a ~ symbol to the variable before the => symbol, then returns the
+	altered string.
+	D. NotNext
+	This method adds a ~ symbol to the variable after the <= symbol, then returns the
+	altered string.
+	E. Implies
+	This code changes the implication sign to |. It runs every time
+	the symbol is not a biconditional.
+	
+4. Negation
+	A. Negation()
+	This method runs every time INDO is run and takes the end result
+	from Implication as a parameter. It removes any double ~ symbols.
+	If there is a negation symbol to be distributed, it runs distNeg().
+	It calls itself recursively until it can not be simplified further
+	using negation.
+	B. distNeg()
+	This method distributes the ~ sign across each variable in parenthesis.
+	It also makes each operator the opposite one. 
+	For example, ~(a & b) would become ~a | ~b.
+	
+5. Distribution
+	A. Distribution()
+	 The most important method concerning distribution that returns
+	 the string it is given as a parameter with any operations 
+	 outside the parenthesis distributed throughout the parenthesis
+	 and any unecessary parethesis removed. 
+	B. SameOp()
+	If the operator outside the parenthesis matches the operator
+	inside the parenthesis then the parenthesis are removed through 
+	this method.
+	C. DiffOp()
+	If the operator outside the parenthesis does not match the operator
+	inside the parenthesis then the outer operator must be distributed
+	across the variables. This is done through diffOp.
+6. Operators	 
+	 A. Operators()
+	 This is the final step in the INDO process. This step translates
+	 the string into set form. The symbol & signifies a new set while 
+	 | signifies a new term in the same set.
+7. Test Cases
+	A. Main
+	The main method sets up the table heading and invokes testCase
+	for many different test cases.
+	B. TestCase
+	This method runs INDO for the test cases it is given from main.
+	It also sets up the formatting of the table.
